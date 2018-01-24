@@ -1,8 +1,7 @@
 document.addEventListener('DOMContentLoaded',(event)=>{
-    
     let words = []
     document.getElementById('file').addEventListener('change', readFile, false)
-    
+
     document.getElementById('gen').addEventListener('click', function(event){downloadCSV(words)}, false)
 
 
@@ -28,11 +27,22 @@ document.addEventListener('DOMContentLoaded',(event)=>{
         for (let i=0; i<10; i++){
             for (let j=0; j<3; j++){
                 let rand = Math.floor(Math.random() * Math.floor(data.length))
-                csv += data[rand]
-                csv += ' '
+                    csv += data[rand]
+                    csv += ' '
             }
             csv += '\n'
         }
-        console.log(csv)
+        var blob = new Blob([csv], {type:'text/csv;charset=utf-8;'})
+        var link = document.createElement('a')
+        if(link.download !== undefined){
+            var url = URL.createObjectURL(blob)
+            link.setAttribute('href', url)
+            link.setAttribute('download', 'export.csv')
+            link.style.visibility = 'hidden'
+            document.body.appendChild(link)
+            link.click(
+            document.body.removeChild(link)
+            )
+        }
     }
 })
