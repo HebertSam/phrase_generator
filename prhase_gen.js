@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded',(event)=>{
     let words = []
     document.getElementById('file').addEventListener('change', readFile, false)
 
-    document.getElementById('gen').addEventListener('click', function(event){downloadCSV(words)}, false)
+    document.getElementById('gen').addEventListener('click', function(event){createPhrases(words)}, false)
 
 
     function readFile(event) {
@@ -22,27 +22,45 @@ document.addEventListener('DOMContentLoaded',(event)=>{
         return newArray
     }
 
+    function createPhrases(data){
+        let phraseArr = []
+        for (let i=0; i<10; i++){
+            let tempArr = []
+            for (let j=0; j<3; j++){
+                let rand = Math.floor(Math.random() * data.length)
+                if (tempArr.indexOf(data[rand]) > -1){
+                  j--
+                } else {
+                    tempArr.push(data[rand])
+                }
+            }
+            phraseArr.push(tempArr)
+        }
+        // console.log(phraseArr)
+        downloadCSV(phraseArr)
+    }
+
     function downloadCSV(data){
         let csv = "phrases\n"
-        for (let i=0; i<10; i++){
-            for (let j=0; j<3; j++){
-                let rand = Math.floor(Math.random() * Math.floor(data.length))
-                    csv += data[rand]
+        for (let i=0; i<data.length; i++){
+            for (let j=0; j<data[i].length; j++){
+                    csv += data[i][j]
                     csv += ' '
             }
             csv += '\n'
         }
-        var blob = new Blob([csv], {type:'text/csv;charset=utf-8;'})
-        var link = document.createElement('a')
-        if(link.download !== undefined){
-            var url = URL.createObjectURL(blob)
-            link.setAttribute('href', url)
-            link.setAttribute('download', 'export.csv')
-            link.style.visibility = 'hidden'
-            document.body.appendChild(link)
-            link.click(
-            document.body.removeChild(link)
-            )
-        }
+        console.log(csv)
+        // var blob = new Blob([csv], {type:'text/csv;charset=utf-8;'})
+        // var link = document.createElement('a')
+        // if(link.download !== undefined){
+        //     var url = URL.createObjectURL(blob)
+        //     link.setAttribute('href', url)
+        //     link.setAttribute('download', 'export.csv')
+        //     link.style.visibility = 'hidden'
+        //     document.body.appendChild(link)
+        //     link.click(
+        //     document.body.removeChild(link)
+        //     )
+        // }
     }
 })
