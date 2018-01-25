@@ -12,17 +12,23 @@ document.addEventListener('DOMContentLoaded',(event)=>{
         reader.onload = function(event){
             console.log("success")
             let data = event.target.result
+            // console.log(data)
             words = dataToArray(data)
+            console.log(words)
         }
         reader.readAsText(file)
     }
 
     function dataToArray(data){
-        let newArray = data.split(',')
+        let newArray = data.split('\n')
+        for (let i=0; i<newArray.length; i++){
+                newArray[i] = newArray[i].replace(/[\n\r]+/g, '')
+        }
         return newArray
     }
 
     function createPhrases(data){
+        console.log(data)
         let phraseArr = []
         for (let i=0; i<10; i++){
             let tempArr = []
@@ -48,19 +54,19 @@ document.addEventListener('DOMContentLoaded',(event)=>{
                     csv += ' '
             }
             csv += '\n'
+            // console.log("csv added new line\n" + csv)
         }
         console.log(csv)
-        // var blob = new Blob([csv], {type:'text/csv;charset=utf-8;'})
-        // var link = document.createElement('a')
-        // if(link.download !== undefined){
-        //     var url = URL.createObjectURL(blob)
-        //     link.setAttribute('href', url)
-        //     link.setAttribute('download', 'export.csv')
-        //     link.style.visibility = 'hidden'
-        //     document.body.appendChild(link)
-        //     link.click(
-        //     document.body.removeChild(link)
-        //     )
-        // }
+        var blob = new Blob([csv], {type:'text/csv;charset=utf-8;'})
+        var link = document.createElement('a')
+        if(link.download !== undefined){
+            var url = URL.createObjectURL(blob)
+            link.setAttribute('href', url)
+            link.setAttribute('download', 'export.csv')
+            link.style.visibility = 'hidden'
+            document.body.appendChild(link)
+            link.click()
+            document.body.removeChild(link)
+        }
     }
 })
