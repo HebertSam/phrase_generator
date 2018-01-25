@@ -14,8 +14,9 @@ document.addEventListener('DOMContentLoaded',(event)=>{
             let data = event.target.result
             // console.log(data)
             words = dataToArray(data)
-            console.log(words)
+            // console.log(words)
         }
+        
         reader.readAsText(file)
     }
 
@@ -30,9 +31,14 @@ document.addEventListener('DOMContentLoaded',(event)=>{
     function createPhrases(data){
         console.log(data)
         let phraseArr = []
-        for (let i=0; i<10; i++){
+        let numOfPhrase = document.getElementById('lines').value
+        let phraseLen = document.getElementById('words').value
+        console.log("this is the number of phrases requested " + numOfPhrase)
+        console.log("this is the number of words requested " + phraseLen)
+        
+        for (let i=0; i<numOfPhrase; i++){
             let tempArr = []
-            for (let j=0; j<3; j++){
+            for (let j=0; j<phraseLen; j++){
                 let rand = Math.floor(Math.random() * data.length)
                 if (tempArr.indexOf(data[rand]) > -1){
                   j--
