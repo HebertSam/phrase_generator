@@ -21,10 +21,15 @@ document.addEventListener('DOMContentLoaded',(event)=>{
     }
 
     function dataToArray(data){
+        if (data === null || data === ""){
+            console.log("could not read file")
+        }
         let newArray = data.split('\n')
         for (let i=0; i<newArray.length; i++){
                 newArray[i] = newArray[i].replace(/[\n\r]+/g, '')
         }
+        let d = document.getElementById('success')
+        d.innerHTML = "thanks for uploading a file"
         return newArray
     }
 
@@ -35,6 +40,12 @@ document.addEventListener('DOMContentLoaded',(event)=>{
         let phraseLen = document.getElementById('words').value
         console.log("this is the number of phrases requested " + numOfPhrase)
         console.log("this is the number of words requested " + phraseLen)
+
+        if (numOfPhrase === "" || phraseLen === ""){
+            let d = document.getElementById('success')
+            d.innerHTML = "please enter the number of phrases or length of phrases"
+            return
+        }
         
         for (let i=0; i<numOfPhrase; i++){
             let tempArr = []
